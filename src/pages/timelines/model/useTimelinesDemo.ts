@@ -1,25 +1,46 @@
-import { type Ref, onMounted, onUnmounted } from 'vue'
-import { gsap } from '@/shared/lib/gsap'
+// composables/useBounce.js
+import gsap from "gsap";
 
-export function useTimelinesDemo(card: Ref<HTMLElement | null>) {
-  let tl: gsap.core.Timeline | null = null
+export function useTimelinesDemo(parentRef: any, childRef: any) {
+  const bounce = (x: number, y: number) => {
+    if (!childRef.value || !parentRef.value) return;
 
-  onMounted(() => {
-    if (!card.value) return
-    // TODO: создать timeline
-    // tl = gsap.timeline({ paused: true })
-    // tl.from(card.value.querySelector('.eyebrow'), { ... })
-    // tl.from(card.value.querySelector('h2'), { ... }, '<0.1')
-    // ...
-  })
+    // Ограничиваем координаты границами родителя
+    const maxX = parentRef.value.offsetWidth - childRef.value.offsetWidth;
+    const maxY = parentRef.value.offsetHeight - childRef.value.offsetHeight;
 
-  onUnmounted(() => {
-    tl?.kill()
-  })
+    const targetX = Math.min(Math.max(0, x), maxX);
+    const targetY = Math.min(Math.max(0, y), maxY);
 
-  function play()    { tl?.play() }
-  function reverse() { tl?.reverse() }
-  function restart() { tl?.restart() }
+    // Убиваем предыдущую анимацию и запускаем новую
+    gsap.killTweensOf(childRef.value);
+    gsap.to(childRef.value, {
+      x: targetX,
+      y: targetY,
+      duration: 1,
+      ease: "bounce.out",
+    });
+  };
 
-  return { play, reverse, restart }
+  const bounceToCorner = () => {
+    if (!parentRef.value || !childRef.value) return;
+
+    const maxX = parentRef.value.offsetWidth - childRef.value.offsetWidth;
+    const maxY = parentRef.value.offsetHeight - childRef.value.offsetHeight;
+
+    bounce(maxX, maxY);
+  };
+
+  const bounceToCenter = () => {
+    if (!parentRef.value || !childRef.value) return;
+
+    const centerX =
+      (parentRef.value.offsetWidth - childRef.value.offsetWidth) / 2;
+    const centerY =
+      (parentRef.value.offsetHeight - childRef.value.offsetHeight) / 2;
+
+    bounce(centerX, centerY);
+  };
+
+  return { bounce, bounceToCorner, bounceToCenter };
 }

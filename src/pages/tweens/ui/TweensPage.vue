@@ -16,13 +16,9 @@ const { animateTo, animateFrom, animateFromTo, animateSet } = useTweensDemo({
 </script>
 
 <template>
-  <main :class="$style.page">
-    <NuxtLink to="/" :class="$style.back">← Назад</NuxtLink>
-
-    <header :class="$style.header">
-      <span :class="$style.badge">Tweens</span>
-      <h1>gsap.to / from / fromTo / set</h1>
-    </header>
+  <NuxtLayout name="default">
+    <template #badge>Tweens</template>
+    <template #title>gsap.to / from / fromTo / set</template>
 
     <div :class="$style.grid">
       <div :class="$style.card">
@@ -69,56 +65,10 @@ const { animateTo, animateFrom, animateFromTo, animateSet } = useTweensDemo({
         </div>
       </div>
     </div>
-  </main>
+  </NuxtLayout>
 </template>
 
 <style module lang="scss">
-.page {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 40px 24px 120px;
-}
-
-.back {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  color: var(--text);
-  margin-bottom: 40px;
-  transition: color 0.2s;
-
-  &:hover {
-    color: var(--accent);
-  }
-}
-
-.header {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-bottom: 48px;
-
-  h1 {
-    font-size: clamp(28px, 4vw, 48px);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-  }
-}
-
-.badge {
-  font-size: 12px;
-  font-family: var(--mono);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 1px solid var(--accent-border);
-  padding: 5px 12px;
-  border-radius: 100px;
-  width: fit-content;
-}
-
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));

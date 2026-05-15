@@ -26,13 +26,9 @@ const stats = [
 </script>
 
 <template>
-  <main :class="$style.page">
-    <NuxtLink to="/" :class="$style.back">← Назад</NuxtLink>
-
-    <header :class="$style.header">
-      <span :class="$style.badge">Reveal</span>
-      <h1>Reveal animations</h1>
-    </header>
+  <NuxtLayout name="default">
+    <template #badge>Reveal</template>
+    <template #title>Reveal animations</template>
 
     <!-- 1. Clip-path text reveal -->
     <section :class="$style.section">
@@ -116,54 +112,10 @@ const stats = [
         </button>
       </div>
     </section>
-  </main>
+  </NuxtLayout>
 </template>
 
 <style module lang="scss">
-.page {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 40px 24px 120px;
-}
-
-.back {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  color: var(--text);
-  margin-bottom: 40px;
-  transition: color 0.2s;
-
-  &:hover { color: var(--accent); }
-}
-
-.header {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-bottom: 56px;
-
-  h1 {
-    font-size: clamp(28px, 4vw, 48px);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-  }
-}
-
-.badge {
-  font-size: 12px;
-  font-family: var(--mono);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 1px solid var(--accent-border);
-  padding: 5px 12px;
-  border-radius: 100px;
-  width: fit-content;
-}
-
 .section {
   padding-bottom: 80px;
   margin-bottom: 80px;
@@ -200,7 +152,6 @@ const stats = [
   width: fit-content;
 }
 
-/* ——— Clip-path reveal ——— */
 .revealStage {
   display: flex;
   flex-direction: column;
@@ -256,7 +207,6 @@ const stats = [
   }
 }
 
-/* ——— Stats ——— */
 .stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -290,7 +240,6 @@ const stats = [
   color: var(--text);
 }
 
-/* ——— Wipe ——— */
 .wipeStage {
   display: flex;
   flex-direction: column;

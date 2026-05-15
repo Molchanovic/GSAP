@@ -11,15 +11,14 @@ useScrollDemo({ fadeSection, pinSection, pinSticky, progressBar })
 </script>
 
 <template>
-  <div :class="$style.wrap">
-    <div ref="progressBar" :class="$style.progressBar" />
-
-    <div :class="$style.pageHeader">
-      <NuxtLink to="/" :class="$style.back">← Назад</NuxtLink>
-      <span :class="$style.badge">ScrollTrigger</span>
-      <h1>Анимации при скролле</h1>
+  <NuxtLayout name="default" :full-width="true">
+    <template #badge>ScrollTrigger</template>
+    <template #title>Анимации при скролле</template>
+    <template #subtitle>
       <p>Скролльте вниз, чтобы увидеть триггеры</p>
-    </div>
+    </template>
+
+    <div ref="progressBar" :class="$style.progressBar" />
 
     <section ref="fadeSection" :class="$style.section">
       <div :class="$style.sectionInner">
@@ -63,14 +62,10 @@ useScrollDemo({ fadeSection, pinSection, pinSticky, progressBar })
         </div>
       </div>
     </section>
-  </div>
+  </NuxtLayout>
 </template>
 
 <style module lang="scss">
-.wrap {
-  position: relative;
-}
-
 .progressBar {
   position: fixed;
   top: 0;
@@ -80,48 +75,6 @@ useScrollDemo({ fadeSection, pinSection, pinSticky, progressBar })
   background: var(--accent);
   z-index: 100;
   transform-origin: left;
-}
-
-.pageHeader {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 40px 24px 80px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  h1 {
-    font-size: clamp(32px, 5vw, 56px);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-  }
-
-  p { color: var(--text); }
-}
-
-.back {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  color: var(--text);
-  transition: color 0.2s;
-  width: fit-content;
-
-  &:hover { color: var(--accent); }
-}
-
-.badge {
-  font-size: 12px;
-  font-family: var(--mono);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 1px solid var(--accent-border);
-  padding: 5px 12px;
-  border-radius: 100px;
-  width: fit-content;
 }
 
 .section {

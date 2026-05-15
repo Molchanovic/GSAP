@@ -1,103 +1,47 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useTimelinesDemo } from '../model/useTimelinesDemo'
+import { ref } from "vue";
+import { useTimelinesDemo } from "../model/useTimelinesDemo";
 
-const card = ref<HTMLElement | null>(null)
+const card = ref<HTMLElement | null>(null);
+const parentRef = ref(null);
 
-const { play, reverse, restart } = useTimelinesDemo(card)
+const { bounce, bounceToCorner, bounceToCenter } = useTimelinesDemo(
+  parentRef,
+  card,
+);
 </script>
 
 <template>
-  <main :class="$style.page">
-    <NuxtLink to="/" :class="$style.back">← Назад</NuxtLink>
+  <NuxtLayout name="default">
+    <template #badge>Timelines</template>
+    <template #title>gsap.timeline()</template>
+    <template #actions>
+      <button :class="[$style.ctrl, $style.ctrlPlay]" @click="bounceToCenter">
+        ▶ Play
+      </button>
+    </template>
 
-    <header :class="$style.header">
-      <span :class="$style.badge">Timelines</span>
-      <h1>gsap.timeline()</h1>
-    </header>
-
-    <div :class="$style.layout">
-      <div :class="$style.stage">
-        <div ref="card" :class="$style.card">
-          <span :class="$style.cardEyebrow">Release 2.0</span>
-          <h2 :class="$style.cardTitle">Последовательные<br>анимации</h2>
-          <p :class="$style.cardText">
-            Timeline позволяет выстраивать цепочку твинов, управлять паузами,
-            лейблами и скоростью воспроизведения.
-          </p>
-          <div :class="$style.cardTags">
-            <span :class="$style.tag">to()</span>
-            <span :class="$style.tag">from()</span>
-            <span :class="$style.tag">labels</span>
-            <span :class="$style.tag">stagger</span>
-          </div>
-          <button :class="$style.cardBtn">Подробнее</button>
+    <div :class="$style.stage">
+      <div ref="card" :class="$style.card">
+        <span :class="$style.cardEyebrow">Release 2.0</span>
+        <h2 :class="$style.cardTitle">Последовательные<br />анимации</h2>
+        <p :class="$style.cardText">
+          Timeline позволяет выстраивать цепочку твинов, управлять паузами,
+          лейблами и скоростью воспроизведения.
+        </p>
+        <div :class="$style.cardTags">
+          <span :class="$style.tag">to()</span>
+          <span :class="$style.tag">from()</span>
+          <span :class="$style.tag">labels</span>
+          <span :class="$style.tag">stagger</span>
         </div>
-      </div>
-
-      <div :class="$style.controls">
-        <p :class="$style.controlsTitle">Управление</p>
-        <div :class="$style.controlsRow">
-          <button :class="[$style.ctrl, $style.ctrlPlay]" @click="play">▶ Play</button>
-          <button :class="[$style.ctrl, $style.ctrlReverse]" @click="reverse">◀ Reverse</button>
-          <button :class="[$style.ctrl, $style.ctrlRestart]" @click="restart">↺ Restart</button>
-        </div>
+        <button :class="$style.cardBtn">Подробнее</button>
       </div>
     </div>
-  </main>
+  </NuxtLayout>
 </template>
 
 <style module lang="scss">
-.page {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 40px 24px 120px;
-}
-
-.back {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  color: var(--text);
-  margin-bottom: 40px;
-  transition: color 0.2s;
-
-  &:hover { color: var(--accent); }
-}
-
-.header {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-bottom: 48px;
-
-  h1 {
-    font-size: clamp(28px, 4vw, 48px);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-  }
-}
-
-.badge {
-  font-size: 12px;
-  font-family: var(--mono);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 1px solid var(--accent-border);
-  padding: 5px 12px;
-  border-radius: 100px;
-  width: fit-content;
-}
-
-.layout {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-
 .stage {
   display: flex;
   align-items: center;
@@ -170,28 +114,9 @@ const { play, reverse, restart } = useTimelinesDemo(card)
   width: fit-content;
   transition: opacity 0.2s;
 
-  &:hover { opacity: 0.85; }
-}
-
-.controls {
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 24px 28px;
-}
-
-.controlsTitle {
-  font-size: 13px;
-  font-family: var(--mono);
-  color: var(--text);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 16px;
-}
-
-.controlsRow {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
+  &:hover {
+    opacity: 0.85;
+  }
 }
 
 .ctrl {
@@ -203,12 +128,14 @@ const { play, reverse, restart } = useTimelinesDemo(card)
   border: 1px solid var(--border);
   background: var(--bg);
   color: var(--text-h);
-  transition: border-color 0.2s, background 0.2s;
-
-  &:hover { border-color: var(--accent-border); }
+  transition:
+    border-color 0.2s,
+    background 0.2s;
 }
 
-.ctrlPlay:hover    { background: #22c55e20; border-color: #22c55e80; color: #22c55e; }
-.ctrlReverse:hover { background: #3b82f620; border-color: #3b82f680; color: #3b82f6; }
-.ctrlRestart:hover { background: var(--accent-bg); border-color: var(--accent-border); color: var(--accent); }
+.ctrlPlay:hover {
+  background: #22c55e20;
+  border-color: #22c55e80;
+  color: #22c55e;
+}
 </style>

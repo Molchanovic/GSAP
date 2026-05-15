@@ -7,15 +7,9 @@ const rowB = ['Motion Design', 'Web Animation', 'Parallax', 'Stagger', 'CSS Modu
 </script>
 
 <template>
-  <main :class="$style.page">
-    <div :class="$style.topbar">
-      <NuxtLink to="/" :class="$style.back">← Назад</NuxtLink>
-    </div>
-
-    <header :class="$style.header">
-      <span :class="$style.badge">Effects</span>
-      <h1>Production effects</h1>
-    </header>
+  <NuxtLayout name="default" :full-width="true">
+    <template #badge>Effects</template>
+    <template #title>Production effects</template>
 
     <!-- 1. Marquee -->
     <section :class="$style.section">
@@ -29,7 +23,7 @@ const rowB = ['Motion Design', 'Web Animation', 'Parallax', 'Stagger', 'CSS Modu
       </div>
     </section>
 
-    <!-- 2. Cursor follower (демо-зона) -->
+    <!-- 2. Cursor follower -->
     <section :class="$style.section">
       <div :class="$style.sectionMeta">
         <code :class="$style.code">Cursor Follower</code>
@@ -64,7 +58,7 @@ const rowB = ['Motion Design', 'Web Animation', 'Parallax', 'Stagger', 'CSS Modu
       </div>
     </section>
 
-    <!-- 4. Number ticker (одиночный) -->
+    <!-- 4. Number ticker -->
     <section :class="$style.section">
       <div :class="$style.sectionMeta">
         <code :class="$style.code">Number Ticker</code>
@@ -77,60 +71,10 @@ const rowB = ['Motion Design', 'Web Animation', 'Parallax', 'Stagger', 'CSS Modu
         </div>
       </div>
     </section>
-  </main>
+  </NuxtLayout>
 </template>
 
 <style module lang="scss">
-.page {
-  max-width: 100%;
-  padding-bottom: 120px;
-}
-
-.topbar {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 40px 24px 0;
-}
-
-.back {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  color: var(--text);
-  transition: color 0.2s;
-
-  &:hover { color: var(--accent); }
-}
-
-.header {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 32px 24px 56px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  h1 {
-    font-size: clamp(28px, 4vw, 48px);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-  }
-}
-
-.badge {
-  font-size: 12px;
-  font-family: var(--mono);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 1px solid var(--accent-border);
-  padding: 5px 12px;
-  border-radius: 100px;
-  width: fit-content;
-}
-
 .section {
   padding: 0 0 64px;
   margin-bottom: 64px;
@@ -169,7 +113,6 @@ const rowB = ['Motion Design', 'Web Animation', 'Parallax', 'Stagger', 'CSS Modu
   width: fit-content;
 }
 
-/* ——— Marquee ——— */
 .marqueeWrap {
   display: flex;
   flex-direction: column;
@@ -186,7 +129,6 @@ const rowB = ['Motion Design', 'Web Animation', 'Parallax', 'Stagger', 'CSS Modu
   }
 }
 
-/* ——— Cursor demo ——— */
 .cursorZone {
   max-width: 960px;
   margin: 0 auto;
@@ -256,7 +198,6 @@ const rowB = ['Motion Design', 'Web Animation', 'Parallax', 'Stagger', 'CSS Modu
   color: var(--text);
 }
 
-/* ——— Magnetic ——— */
 .magnetRow {
   max-width: 960px;
   margin: 0 auto;
@@ -267,7 +208,6 @@ const rowB = ['Motion Design', 'Web Animation', 'Parallax', 'Stagger', 'CSS Modu
   align-items: center;
 }
 
-/* ——— Number ticker ——— */
 .tickerRow {
   max-width: 960px;
   margin: 0 auto;

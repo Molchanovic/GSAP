@@ -22,13 +22,9 @@ const { animateTitle, animateSubtitle, animateBody, reset } = useTextAnimation({
 </script>
 
 <template>
-  <main :class="$style.page">
-    <NuxtLink to="/" :class="$style.back">← Назад</NuxtLink>
-
-    <header :class="$style.pageHeader">
-      <span :class="$style.badge">Text</span>
-      <h1>Анимации текста</h1>
-    </header>
+  <NuxtLayout name="default" max-width="860px">
+    <template #badge>Text</template>
+    <template #title>Анимации текста</template>
 
     <div :class="$style.stage">
       <div ref="titleRef" :class="$style.title">
@@ -36,7 +32,7 @@ const { animateTitle, animateSubtitle, animateBody, reset } = useTextAnimation({
       </div>
 
       <p ref="subtitleRef" :class="$style.subtitle">
-        <span v-for="(char, i) in subtitleChars" :key="i" :class="$style.char">{{ char === ' ' ? ' ' : char }}</span>
+        <span v-for="(char, i) in subtitleChars" :key="i" :class="$style.char">{{ char === ' ' ? ' ' : char }}</span>
       </p>
 
       <div ref="bodyRef" :class="$style.body">
@@ -52,54 +48,10 @@ const { animateTitle, animateSubtitle, animateBody, reset } = useTextAnimation({
         <button :class="[$style.btn, $style.btnReset]" @click="reset">↺ reset</button>
       </div>
     </div>
-  </main>
+  </NuxtLayout>
 </template>
 
 <style module lang="scss">
-.page {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 40px 24px 120px;
-}
-
-.back {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  color: var(--text);
-  margin-bottom: 40px;
-  transition: color 0.2s;
-
-  &:hover { color: var(--accent); }
-}
-
-.pageHeader {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-bottom: 48px;
-
-  h1 {
-    font-size: clamp(28px, 4vw, 48px);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-  }
-}
-
-.badge {
-  font-size: 12px;
-  font-family: var(--mono);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 1px solid var(--accent-border);
-  padding: 5px 12px;
-  border-radius: 100px;
-  width: fit-content;
-}
-
 .stage {
   min-height: 320px;
   border: 1px solid var(--border);
